@@ -8,7 +8,7 @@ This repository contains a simple application designed to find district names. I
 
 ## Getting Started
 
-To run this project in **LOCAL ENVIRONMENT**, ensure that Docker is installed on your machine. Then, execute the following command:
+To run this project in **DEV ENVIRONMENT**, ensure that Docker is installed on your machine. Then, execute the following command:
 
 ```bash
 docker-compose up --build
