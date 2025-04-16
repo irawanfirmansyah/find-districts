@@ -1,13 +1,19 @@
 import { useRef, useState } from "react";
 import Districts from "./components/Districts";
-import { GetKecamatanResponse } from "./types";
+import { GetKecamatanResponse, Kecamatan } from "./types";
 import Input from "./components/Input";
+import { putDistrict } from "./storage";
+import SelectedDistrict from "./components/SelectedDistrict";
 
 function App() {
   const timeoutIdRef = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [data, setData] = useState<null | GetKecamatanResponse>(null);
   const [search, setSearch] = useState("");
+
+  const [selectedDistrict, setSelectedDistrict] = useState<null | Kecamatan>(
+    null
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +48,16 @@ function App() {
     }, 300);
   };
 
-  const handleClear = () => {
+  const handleClickDistrict = (district: Kecamatan) => {
+    // Save a district to list of district in local storage
+    putDistrict(district);
+
+    setSelectedDistrict(district);
+
+    resetInput();
+  };
+
+  const resetInput = () => {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -68,10 +83,22 @@ function App() {
                 data={data?.data ?? null}
                 loading={loading}
                 onChange={handleChange}
-                onClear={handleClear}
+                onClear={resetInput}
               />
 
-              {data !== null && <Districts data={data.data} search={search} />}
+              {selectedDistrict !== null && (
+                <SelectedDistrict
+                  district={selectedDistrict}
+                />
+              )}
+
+              {data !== null && (
+                <Districts
+                  data={data.data}
+                  search={search}
+                  onClickDistrict={handleClickDistrict}
+                />
+              )}
             </div>
           </div>
         </div>
