@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: laravel-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./be-app/database/sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - app-network
+
+  # Laravel Backend (Port 8000)
+  backend:
+    build:
+      context: ./be-app
+      dockerfile: Dockerfile
+    container_name: laravel-backend
+    volumes:
+      - ./be-app:/var/www/html
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel
+      - DB_PASSWORD=secret
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8000:8000"  # Mapped to host port 8000
+    networks:
+      - app-network
+    working_dir: /var/www/html
+    command: >
+      sh -c "php artisan serve --host=0.0.0.0 --port=8000"
+
+  # React Frontend (Port 3000)
+  frontend:
+    build:
+      context: ./fe-app
+      dockerfile: Dockerfile
+    container_name: react-frontend
+    volumes:
+      - ./fe-app:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"  # Mapped to host port 3000
+    environment:
+      - VITE_API_URL=http://localhost:8000  # Points to backend
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    working_dir: /app
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    driver: bridge
