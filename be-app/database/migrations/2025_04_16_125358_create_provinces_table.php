@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reg_provinces', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-        });        
+        // Schema::create('reg_provinces', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('name');
+        // });        
     }
 
     /**

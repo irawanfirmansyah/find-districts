@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useRef, useState } from "react";
+import Districts from "./components/Districts";
+import { GetKecamatanResponse } from "./types";
+import Input from "./components/Input";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const timeoutIdRef = useRef<number | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [data, setData] = useState<null | GetKecamatanResponse>(null);
+  const [search, setSearch] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    if (value.length === 0) {
+      setData(null);
+      setSearch("");
+      return;
+    }
+
+    setLoading(true);
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+    }
+
+    // Debounce the API call
+    timeoutIdRef.current = setTimeout(() => {
+      fetch(`http://localhost:8000/api/locations?search=${value}`)
+        .then((res) => res.json())
+        .then((data: GetKecamatanResponse) => {
+          setData(data);
+          setSearch(value);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, 300);
+  };
+
+  const handleClear = () => {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+    setData(null);
+    setSearch("");
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <header className="fixed top-0 left-0 w-full p-4 border-b-[1px] border-gray-200 overflow-hidden bg-white">
+        <h1 className="text-2xl font-bold">Aplikasi Pencarian Kecamatan</h1>
+      </header>
+      <div className="mt-[65px]">
+        <div className="container mx-auto max-w-5xl max-[550px]:w-[calc(100%-48px)] w-full">
+          <div className="pt-4 flex flex-col gap-2 items-center">
+            <h2 className="text-xl text-center">
+              Masukkan nama lokasi yang ada di Indonesia dan pilih salah satu!
+            </h2>
+
+            <div className="w-full max-w-md">
+              <Input
+                ref={inputRef}
+                data={data?.data ?? null}
+                loading={loading}
+                onChange={handleChange}
+                onClear={handleClear}
+              />
+
+              {data !== null && <Districts data={data.data} search={search} />}
+            </div>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <footer className="fixed bottom-0 left-0 w-full p-4 border-t-[1px] border-gray-200 bg-white">
+        <div className="flex justify-center">
+          <p className="font-bold">
+            Dibuat dengan ❤️ oleh&nbsp;
+            <a target="_blank" href="https://github.com/irawanfirmansyah">
+              Irawan F.
+            </a>
+          </p>
+        </div>
+      </footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

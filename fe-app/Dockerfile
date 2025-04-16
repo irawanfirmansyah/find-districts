@@ -14,10 +14,10 @@ COPY . .
 RUN yarn install
 
 # Build app
-RUN yarn build
+# RUN yarn build
 
 # Environment variables
 ENV PORT=3000
 EXPOSE 3000
 
-CMD ["yarn", "preview"]
+CMD ["yarn", "dev"]

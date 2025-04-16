@@ -43,14 +43,6 @@ RUN php artisan key:generate
 RUN chown -R www-data:www-data /var/www/html/storage
 RUN chmod -R 775 /var/www/html/storage
 
-# # Install PHP CLI (for artisan serve)
-# RUN apt-get update && apt-get install -y php-cli
-
-# EXPOSE 8000
-
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
-
 # Copy entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh

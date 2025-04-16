@@ -4,5 +4,4 @@
 php artisan migrate --force
 php artisan db:seed --force
 
-# Start PHP-FPM
-exec php-fpm
+php artisan serve --host=0.0.0.0 --port=8000

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reg_districts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('regency_id')->constrained('reg_regencies');
-            $table->string('name');
-        });
+        // Schema::create('reg_districts', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('regency_id')->constrained('reg_regencies');
+        //     $table->string('name');
+        // });
     }
 
     /**

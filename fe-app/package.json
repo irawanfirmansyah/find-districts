@@ -4,14 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port=3000 --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview --port=3000 --host"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.4",
+    "rc-virtual-list": "^3.18.5",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
