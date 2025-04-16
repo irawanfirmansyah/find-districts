@@ -23,3 +23,7 @@ The application uses the following ports:
 - **MySQL Database:** `3306`  
 
 Enjoy exploring district names with this application!  
+
+## Acknowledgment
+
+This application utilizes a copy of software from [Wilayah Administrasi Indonesia](https://github.com/guzfirdaus/Wilayah-Administrasi-Indonesia). We extend our gratitude to the contributors of this repository.
