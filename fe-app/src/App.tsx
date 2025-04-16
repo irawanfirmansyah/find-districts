@@ -10,12 +10,12 @@ function App() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [data, setData] = useState<null | GetKecamatanResponse>(null);
   const [search, setSearch] = useState("");
-
   const [selectedDistrict, setSelectedDistrict] = useState<null | Kecamatan>(
     null
   );
-
   const [loading, setLoading] = useState(false);
+  const [focusingInput, setFocusingInput] = useState(false);
+  const [hoveringDistricts, setHoveringDistricts] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -54,15 +54,18 @@ function App() {
 
     setSelectedDistrict(district);
 
-    resetInput();
+    resetState();
   };
 
-  const resetInput = () => {
+  const resetState = () => {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
     setData(null);
     setSearch("");
+    setHoveringDistricts(false);
+    setFocusingInput(false);
+    setLoading(false);
   };
 
   return (
@@ -83,22 +86,36 @@ function App() {
                 data={data?.data ?? null}
                 loading={loading}
                 onChange={handleChange}
-                onClear={resetInput}
+                onClear={resetState}
+                onFocus={() => {
+                  setFocusingInput(true);
+                }}
+                onBlur={() => {
+                  if (hoveringDistricts) return;
+                  setFocusingInput(false);
+                }}
               />
 
-              {selectedDistrict !== null && (
-                <SelectedDistrict
-                  district={selectedDistrict}
-                />
-              )}
-
-              {data !== null && (
-                <Districts
-                  data={data.data}
-                  search={search}
-                  onClickDistrict={handleClickDistrict}
-                />
-              )}
+              <div className="relative mt-4">
+                {data !== null && focusingInput && (
+                  <div className="absolute top-0 left-0 w-full bg-white">
+                    <Districts
+                      data={data.data}
+                      search={search}
+                      onClickDistrict={handleClickDistrict}
+                      onPointerEnter={() => {
+                        setHoveringDistricts(true);
+                      }}
+                      onPointerLeave={() => {
+                        setHoveringDistricts(false);
+                      }}
+                    />
+                  </div>
+                )}
+                {selectedDistrict !== null && (
+                  <SelectedDistrict district={selectedDistrict} />
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ const HighlightedText = ({
   highlight: string;
 }) => {
   const parts = text.split(new RegExp(`(${highlight})`, "gi"));
-  console.log(parts);
+
   if (parts.length === 1) {
     return text;
   }

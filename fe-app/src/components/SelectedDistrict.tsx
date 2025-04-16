@@ -2,7 +2,7 @@ import { Kecamatan } from "../types";
 
 const SelectedDistrict = ({ district }: { district: Kecamatan }) => {
   return (
-    <div className="mt-4">
+    <div className="">
       <h3 className="text-lg mb-2">Kecamatan dipilih</h3>
       <p><span className="font-semibold">Kecamatan:</span> {district.kecamatan}</p>
       <p><span className="font-semibold">Kota:</span> {district.kota}</p>
