@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import Districts from "./components/Districts";
-import { GetKecamatanResponse, Kecamatan } from "./types";
+import { Kecamatan } from "./types";
 import Input from "./components/Input";
 import { putDistrict } from "./storage";
 import SelectedDistrict from "./components/SelectedDistrict";
@@ -8,7 +8,7 @@ import SelectedDistrict from "./components/SelectedDistrict";
 function App() {
   const timeoutIdRef = useRef<number | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [data, setData] = useState<null | GetKecamatanResponse>(null);
+  const [data, setData] = useState<null | Kecamatan[]>(null);
   const [search, setSearch] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState<null | Kecamatan>(
     null
@@ -35,7 +35,7 @@ function App() {
     timeoutIdRef.current = setTimeout(() => {
       fetch(`http://localhost:8000/api/locations?search=${value}`)
         .then((res) => res.json())
-        .then((data: GetKecamatanResponse) => {
+        .then((data: Kecamatan[]) => {
           setData(data);
           setSearch(value);
         })
@@ -107,7 +107,7 @@ function App() {
                 {data !== null && focusingInput && (
                   <div className="absolute top-0 left-0 w-full bg-white">
                     <Districts
-                      data={data.data}
+                      data={data}
                       search={search}
                       onClickDistrict={handleClickDistrict}
                       onPointerEnter={() => {

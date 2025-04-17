@@ -40,6 +40,6 @@ class LocationController extends Controller
                 ];
             });
 
-        return response()->json(['data' => $districts, 'length' => $districts->count()]);
+        return response()->json($districts);
     }
 }
