@@ -2,19 +2,25 @@
 
 This repository contains a simple application designed to find district names. It is built using the following technologies:
 
-- **Backend (BE):** Laravel  
-- **Frontend (FE):** React with Vite  
-- **Database:** MySQL  
+- **Backend (BE):** Laravel v10
+- **Frontend (FE):** React v19 + Vite 
+- **Database:** MySQL v8
 
 ## Getting Started
 
 To run this project in **DEV ENVIRONMENT**, ensure that Docker is installed on your machine. Then, execute the following command:
 
 ```bash
-docker-compose up --build
+docker-compose up --build (add `-d` to run in detach mode)
 ```
 
-when docker finishes put every containers in running state, you can open the app in: [localhost](http://localhost:3000)
+when docker finishes put every containers in running state, you can open the app in: [localhost](http://localhost:3000).
+
+Once you finish exploring the application, it is recommended to execute this command to shut down the app and clean up volumes:
+
+```bash
+docker-compose down -v
+```
 
 ## Application Ports
 

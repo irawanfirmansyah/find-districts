@@ -1,14 +1,3 @@
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-
-DROP TABLE IF EXISTS `reg_provinces`;
-CREATE TABLE `reg_provinces` (
-  id CHAR(2) PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 INSERT INTO `reg_provinces` VALUES
 ('11', 'ACEH'),
 ('12', 'SUMATERA UTARA'),
@@ -47,19 +36,6 @@ INSERT INTO `reg_provinces` VALUES
 ('93', 'PAPUA SELATAN'),
 ('94', 'PAPUA TENGAH'),
 ('95', 'PAPUA PEGUNUNGAN');
-
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-
-DROP TABLE IF EXISTS `reg_regencies`;
-CREATE TABLE `reg_regencies` (
-  id CHAR(4) PRIMARY KEY,
-  province_id CHAR(2) NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  CONSTRAINT fk_province FOREIGN KEY (province_id) REFERENCES reg_provinces(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `reg_regencies` VALUES
 ('1101', '11', 'KAB. ACEH SELATAN'),
@@ -576,19 +552,6 @@ INSERT INTO `reg_regencies` VALUES
 ('9506', '95', 'KAB. YALIMO'),
 ('9507', '95', 'KAB. LANNY JAYA'),
 ('9508', '95', 'KAB. NDUGA');
-
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-
-DROP TABLE IF EXISTS `reg_districts`;
-CREATE TABLE `reg_districts` (
-  id CHAR(6) PRIMARY KEY,
-  regency_id CHAR(4) NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  CONSTRAINT fk_regency FOREIGN KEY (regency_id) REFERENCES reg_regencies(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `reg_districts` VALUES
 ('110101', '1101', 'Bakongan'),
@@ -7868,8 +7831,3 @@ INSERT INTO `reg_districts` VALUES
 ('950830', '9508', 'Nenggeagin'),
 ('950831', '9508', 'Krepkuri'),
 ('950832', '9508', 'Pasir Putih');
-
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';

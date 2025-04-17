@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('reg_districts', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->foreignId('regency_id')->constrained('reg_regencies');
-        //     $table->string('name');
-        // });
+        Schema::create('reg_regencies', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('province_id')->constrained('reg_provinces');
+            $table->string('name');
+        });
     }
 
     /**
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('districts');
+        Schema::dropIfExists('reg_regencies');
     }
 };
