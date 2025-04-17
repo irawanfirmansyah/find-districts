@@ -53,8 +53,11 @@ function App() {
     putDistrict(district);
 
     setSelectedDistrict(district);
-
-    resetState();
+    if (inputRef.current) {
+      inputRef.current.value = district.kecamatan;
+    }
+    setFocusingInput(false);
+    setData(null);
   };
 
   const resetState = () => {
