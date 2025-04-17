@@ -17,7 +17,9 @@ const Districts = ({
 }) => {
   if (data.length === 0) {
     return (
-      <div className="text-center">Tidak ditemukan lokasi yang relevan.</div>
+      <div className="h-[400px] text-center rounded-lg border-2 border-gray-700 flex items-center justify-center">
+        <p>Tidak ditemukan lokasi yang relevan.</p>
+      </div>
     );
   }
   return (

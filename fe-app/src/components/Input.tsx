@@ -4,11 +4,11 @@ import { Kecamatan } from "../types";
 type InputProps = React.ComponentPropsWithoutRef<"input"> & {
   loading: boolean;
   onClear?: () => void;
-  data: null | Kecamatan[];
+  selectedDistrict: Kecamatan | null;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ loading, onClear, data, ...restProps }, ref) => {
+  ({ loading, onClear, selectedDistrict, ...restProps }, ref) => {
     return (
       <div className="flex border-2 border-gray-700 rounded-lg p-2 mt-2 focus-within:border-blue-500">
         <input
@@ -21,7 +21,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {loading && (
           <div className="shrink-0 h-6 w-6 animate-spin rounded-full border-4 border-solid border-t-transparent" />
         )}
-        {data !== null && data.length > 0 && !loading && (
+        {selectedDistrict !== null && !loading && (
           <div
             className="shrink-0 h-6 w-6 cursor-pointer relative"
             onClick={() => {

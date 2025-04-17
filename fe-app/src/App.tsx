@@ -69,6 +69,7 @@ function App() {
     setHoveringDistricts(false);
     setFocusingInput(false);
     setLoading(false);
+    setSelectedDistrict(null);
   };
 
   return (
@@ -85,8 +86,8 @@ function App() {
 
             <div className="w-full max-w-md">
               <Input
+                selectedDistrict={selectedDistrict}
                 ref={inputRef}
-                data={data?.data ?? null}
                 loading={loading}
                 onChange={handleChange}
                 onClear={resetState}
@@ -94,8 +95,11 @@ function App() {
                   setFocusingInput(true);
                 }}
                 onBlur={() => {
-                  if (hoveringDistricts) return;
+                  if (hoveringDistricts && data && data.length > 0) return;
                   setFocusingInput(false);
+                  if (selectedDistrict && inputRef.current) {
+                    inputRef.current.value = selectedDistrict.kecamatan;
+                  }
                 }}
               />
 
